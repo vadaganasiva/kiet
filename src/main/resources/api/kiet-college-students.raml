@@ -1,0 +1,79 @@
+#%RAML 1.0
+title: kiet-college-students
+ 
+
+/fetch-student:
+  get:
+    queryParameters:
+      rollno:
+        required: true
+        example: 424
+        type: number
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "status":200,
+                "message":"success"
+              }
+      500:
+        body:
+            application/json:
+                example:
+                    {
+                      "status":500,
+                      "message":"internal server error"
+                    }  
+      400:
+          body:
+            application/json:
+                 example:
+                   {
+                     "status":400,
+                     "message":"bad request"
+                   }
+/add-student:
+  post:
+    body:
+      application/json:
+        example:
+          {
+            "name": "madhu",
+            "college": "kiet",
+            "branch": "ece",
+            "rollno": 429
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "status":200,
+                "message":"success"
+              }
+      500:
+        body:
+            application/json:
+                example:
+                    {
+                      "status":500,
+                      "message":"internal server error"
+                    }  
+      400:
+          body:
+            application/json:
+                 example:
+                   {
+                     "status":400,
+                     "message":"bad request"
+                   }
+                                                                               
+              
+          
+    
+    
+      
+    

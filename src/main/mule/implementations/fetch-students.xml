@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="fetch-studentsFlow" doc:id="883952aa-5362-4b67-94bf-744dd64e9eb4" >
+		<logger level="INFO" doc:name="Logger" doc:id="84e2f166-b80b-4491-9d34-1011aeec2bfd" message="request comming from the api: #[attributes.queryParams]"/>
+		<db:select doc:name="Select" doc:id="d0f6ee22-90cd-45a4-9758-aa49e781bbba" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from collegedata where rollno=:rollno]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	rollno: attributes.queryParams.rollno
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="6b72408f-8035-47bd-810c-9f22c8763c96" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="6f043cce-16df-4cca-8305-c0e202a0e0d6" message="#[payload]"/>
+	</flow>
+</mule>

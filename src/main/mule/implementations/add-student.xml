@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="add-studentFlow" doc:id="61c8f387-5c7f-4eff-8c56-5c2ede8c6502" >
+		<logger level="INFO" doc:name="Logger" doc:id="cb2d8eb7-3ef9-42c0-9564-8225f80827c1" message="request comming from the api: #[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="1a86c8ec-cd82-426d-956e-49da52b68780" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:insert doc:id="e93cdbc7-aeaa-4c7c-8e53-735c0d15c08b" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into collegedata(name,college,branch,rollno) values (:name,:college,:branch,:rollno)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"name": payload.name,
+	"college": payload.college,
+	"branch": payload.branch,
+	"rollno": payload.rollno
+}]]]></db:input-parameters>
+		</db:insert>
+		<logger level="INFO" doc:name="Logger" doc:id="df529522-e294-402f-a17f-60ca4ba3bbbf" message="data inserted successifully: #[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="067dd43f-7686-4eb1-8992-849270222470" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: 200,
+  message: "data inserted into database"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
