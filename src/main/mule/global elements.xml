@@ -10,4 +10,5 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 		<db:oracle-connection host="${db.host}" port="${db.port}" user="${db.username}" password="${db.password}" instance="${db.instance}" />
 	</db:config>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="24bea82b-6604-47be-8fea-7eb0bc61a9b2" file="${env}.yaml" key="${enc.key}" />
+	<api-gateway:autodiscovery apiId="17873324" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="f95bc7f0-8e9e-4aca-9b76-8726fb17f3c6" flowRef="kiet-college-students-main" />
 </mule>
